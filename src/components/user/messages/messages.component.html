@@ -13,7 +13,7 @@
                         <div fxLayout="column" fxLayoutAlign="none">
                             @for (message of messages; track message) {
                                 <button mat-button>
-                                    <img src="{{ ( message.image || (message.name | profilePicture)) }}" width="50">   
+                                    <mat-icon style="font-size:40px;width:40px;height:40px;margin-right:8px">account_circle</mat-icon>   
                                     <div fxLayout="column" fxLayoutAlign="none" class="w-100">
                                         <div fxLayout="row" fxLayoutAlign="space-between start">
                                             <span class="name">{{message.name}}</span>
