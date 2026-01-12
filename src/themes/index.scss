@@ -1,0 +1,12 @@
+// Main theme entry point
+// Import this file in your application's styles.scss:
+// @use '@dreso/themes' as dreso-theme;
+
+@use './styles/variables' as *;
+@use './styles/mixins' as *;
+@use './_theme';
+@use './_theme-reset';
+@use './styles/base';
+@use './styles/spaces';
+@use './styles/rtl';
+@use './styles/libs-override';

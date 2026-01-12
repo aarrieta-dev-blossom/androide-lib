@@ -1,0 +1,55 @@
+@mixin menu-level-padding($direction) {
+    $menu-levels: 4;
+    @for $i from 2 through $menu-levels {
+        $padding: 16px * $i;
+        .menu-item.menu-level-#{$i} > .mat-mdc-button {
+            @if $direction == 'ltr' {
+                padding-left: $padding;
+            } @else {
+                padding-right: $padding;
+            }
+        }
+    }
+}
+
+.menu-item {
+    .mat-mdc-button {
+        width: 100%;
+        font-weight: 400;
+        height: 42px;
+        padding-left: 16px;
+        border-radius: 0;
+
+        .mat-icon.menu-icon {
+            margin-right: 12px;
+        }
+
+        .mat-icon.menu-expand-icon {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        &.expanded {
+            .mat-icon.menu-expand-icon {
+                transform: rotate(180deg);
+            }
+        }
+    }
+}
+
+.sub-menu {
+    @include menu-level-padding('ltr');
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease-out;
+
+    .mat-mdc-button {
+        padding-left: 40px;
+    }
+
+    &.show {
+        max-height: 500px;
+        transition: max-height 0.25s ease-in;
+    }
+}

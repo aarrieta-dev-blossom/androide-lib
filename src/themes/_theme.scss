@@ -1,0 +1,52 @@
+@use '@angular/material' as mat;
+@use './styles/variables' as vars;
+@use './_theme-reset' as reset;
+@use './skins/indigo-light' as indigo-light;
+@use './skins/teal-light' as teal-light;
+@use './skins/red-light' as red-light;
+@use './skins/blue-dark' as blue-dark;
+@use './skins/green-dark' as green-dark;
+@use './skins/pink-dark' as pink-dark;
+
+$custom-typography: mat.m2-define-typography-config(
+    $body-1: mat.m2-define-typography-level(14px, 20px, 400, vars.$font-family),
+    $button: mat.m2-define-typography-level(14px, 22px, 600, vars.$font-family, $letter-spacing: 0.02em),
+);
+
+@include mat.all-component-typographies($custom-typography);
+@include mat.elevation-classes();
+@include mat.app-background();
+
+.app {
+    --mat-fab-small-container-shape: 50%;
+
+    &.indigo-light {
+        @include mat.all-component-colors(indigo-light.$indigo-light-theme);
+        @include reset.theme-reset(indigo-light.$indigo-light-theme);
+    }
+
+    &.teal-light {
+        @include mat.all-component-colors(teal-light.$teal-light-theme);
+        @include reset.theme-reset(teal-light.$teal-light-theme);
+    }
+
+    &.red-light {
+        @include mat.all-component-colors(red-light.$red-light-theme);
+        @include reset.theme-reset(red-light.$red-light-theme);
+    }
+
+    &.blue-dark {
+        @include mat.all-component-colors(blue-dark.$blue-dark-theme);
+        @include reset.theme-reset(blue-dark.$blue-dark-theme);
+    }
+
+    &.green-dark {
+        @include mat.all-component-colors(green-dark.$green-dark-theme);
+        @include reset.theme-reset(green-dark.$green-dark-theme);
+    }
+
+    &.pink-dark {
+        @include mat.all-component-colors(pink-dark.$pink-dark-theme);
+        @include reset.theme-reset(pink-dark.$pink-dark-theme);
+    }
+}
