@@ -1,9 +1,8 @@
-import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, inject, input, viewChild, computed, ViewEncapsulation } from '@angular/core';
 import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MenuService } from '../../../services/core/menu.service';
 import { SettingsService } from '../../../services/core/settings.service';
-import { Settings } from '../../../models/core/settings.model';
 import { Menu } from '../../../models/core/menu.model';
 import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,35 +22,26 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     styleUrls: ['./horizontal-menu.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class HorizontalMenuComponent implements OnInit {
-    @Input() menuParentId: number = 0;
-    public menuItems: Menu[] = [];
-    public settings: Settings;
-    @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
+export class HorizontalMenuComponent {
+    readonly menuParentId = input(0);
 
-    constructor(
-        public settingsService: SettingsService,
-        public menuService: MenuService,
-        public router: Router
-    ) {
-        this.settings = this.settingsService.settings;
-    }
+    private readonly settingsService = inject(SettingsService);
+    private readonly menuService = inject(MenuService);
+    private readonly router = inject(Router);
 
-    ngOnInit() {
-        this.menuItems = this.menuService.getHorizontalMenuItems();
-        this.menuItems = this.menuItems.filter(item => item.parentId === this.menuParentId);
-    }
+    readonly trigger = viewChild(MatMenuTrigger);
+    readonly settings = this.settingsService.settings;
+    readonly menuItems = computed(() =>
+        this.menuService.horizontalMenuItems().filter(item => item.parentId === this.menuParentId())
+    );
 
-    ngAfterViewInit() {
+    constructor() {
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
-                if (this.settings.fixedHeader) {
-                    const mainContent = document.getElementById('main-content');
-                    if (mainContent) {
-                        mainContent.scrollTop = 0;
-                    }
+                if (this.settings().fixedHeader) {
+                    document.getElementById('main-content')?.scrollTo(0, 0);
                 } else {
-                    document.getElementsByClassName('mat-drawer-content')[0].scrollTop = 0;
+                    document.getElementsByClassName('mat-drawer-content')[0]?.scrollTo(0, 0);
                 }
             }
         });

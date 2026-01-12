@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, inject, signal, viewChild, ViewEncapsulation } from '@angular/core';
 import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MessagesService } from './messages.service';
@@ -32,31 +32,25 @@ import { ProfilePicturePipe } from '../../../pipes/common/profilePicture.pipe';
     encapsulation: ViewEncapsulation.None,
     providers: [MessagesService]
 })
-export class MessagesComponent implements OnInit {
-    @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
-    public selectedTab = 1;
-    public messages: Array<any>;
-    public files: Array<any>;
-    public meetings: Array<any>;
+export class MessagesComponent {
+    private readonly messagesService = inject(MessagesService);
 
-    constructor(private messagesService: MessagesService) {
-        this.messages = messagesService.getMessages();
-        this.files = messagesService.getFiles();
-        this.meetings = messagesService.getMeetings();
+    readonly trigger = viewChild(MatMenuTrigger);
+    readonly selectedTab = signal(1);
+    readonly messages = signal(this.messagesService.getMessages());
+    readonly files = signal(this.messagesService.getFiles());
+    readonly meetings = signal(this.messagesService.getMeetings());
+
+    openMessagesMenu(): void {
+        this.trigger()?.openMenu();
+        this.selectedTab.set(0);
     }
 
-    ngOnInit() {}
-
-    openMessagesMenu() {
-        this.trigger.openMenu();
-        this.selectedTab = 0;
+    onMouseLeave(): void {
+        this.trigger()?.closeMenu();
     }
 
-    onMouseLeave() {
-        this.trigger.closeMenu();
-    }
-
-    stopClickPropagate(event: Event) {
+    stopClickPropagate(event: Event): void {
         event.stopPropagation();
         event.preventDefault();
     }

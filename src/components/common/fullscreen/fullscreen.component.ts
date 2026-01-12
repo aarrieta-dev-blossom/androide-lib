@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, ViewChild, HostListener, ElementRef } from '@angular/core';
+import { Component, signal, viewChild, HostListener, ElementRef, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
     encapsulation: ViewEncapsulation.None,
     template: `
         <button mat-icon-button class="full-screen">
-            @if (toggle) {
+            @if (isFullscreen()) {
                 <mat-icon #compress>fullscreen_exit</mat-icon>
             } @else {
                 <mat-icon #expand>fullscreen</mat-icon>
@@ -17,34 +17,22 @@ import { MatIconModule } from '@angular/material/icon';
     `
 })
 export class FullScreenComponent {
-    toggle = false;
-    @ViewChild('expand') private expand?: ElementRef;
-    @ViewChild('compress') private compress?: ElementRef;
-
-    requestFullscreen(elem: HTMLElement): void {
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        }
-    }
-
-    exitFullscreen(): void {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        }
-    }
+    readonly isFullscreen = signal(false);
+    private readonly expand = viewChild<ElementRef>('expand');
+    private readonly compress = viewChild<ElementRef>('compress');
 
     @HostListener('click')
-    getFullscreen(): void {
-        if (this.expand) {
-            this.requestFullscreen(document.documentElement);
+    toggleFullscreen(): void {
+        if (this.expand()) {
+            document.documentElement.requestFullscreen?.();
         }
-        if (this.compress) {
-            this.exitFullscreen();
+        if (this.compress()) {
+            document.exitFullscreen?.();
         }
     }
 
     @HostListener('window:resize')
     onFullScreenChange(): void {
-        this.toggle = document.fullscreenElement != null;
+        this.isFullscreen.set(document.fullscreenElement != null);
     }
 }

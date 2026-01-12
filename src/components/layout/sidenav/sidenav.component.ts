@@ -1,12 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { SettingsService } from '../../../services/core/settings.service';
 import { MenuService } from '../../../services/core/menu.service';
-import { Settings } from '../../../models/core/settings.model';
 import { VerticalMenuComponent } from '../../menu/vertical-menu/vertical-menu.component';
-
 import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 import { NgScrollbarModule } from 'ngx-scrollbar';
-
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,23 +22,14 @@ import { MatIconModule } from '@angular/material/icon';
     styleUrls: ['./sidenav.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class SidenavComponent implements OnInit {
-    public userImage = '';
-    public menuItems: Array<any> = [];
-    public settings: Settings;
+export class SidenavComponent {
+    readonly settingsService = inject(SettingsService);
+    readonly menuService = inject(MenuService);
 
-    constructor(
-        public settingsService: SettingsService,
-        public menuService: MenuService
-    ) {
-        this.settings = this.settingsService.settings;
-    }
+    readonly settings = this.settingsService.settings;
+    readonly menuItems = this.menuService.verticalMenuItems;
 
-    ngOnInit() {
-        this.menuItems = this.menuService.getVerticalMenuItems();
-    }
-
-    public closeSubMenus(): void {
+    closeSubMenus(): void {
         const menu = document.getElementById('vertical-menu');
         if (menu) {
             for (let i = 0; i < menu.children[0].children.length; i++) {

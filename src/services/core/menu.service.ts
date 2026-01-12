@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Menu } from '../../models/core/menu.model';
@@ -7,34 +7,28 @@ import { Menu } from '../../models/core/menu.model';
     providedIn: 'root'
 })
 export class MenuService {
-    private verticalMenuItems: Menu[] = [];
-    private horizontalMenuItems: Menu[] = [];
+    private readonly _verticalMenuItems = signal<Menu[]>([]);
+    private readonly _horizontalMenuItems = signal<Menu[]>([]);
+
+    readonly verticalMenuItems = this._verticalMenuItems.asReadonly();
+    readonly horizontalMenuItems = this._horizontalMenuItems.asReadonly();
 
     constructor(
         private location: Location,
         private router: Router
     ) {}
 
-    public setVerticalMenuItems(items: Menu[]): void {
-        this.verticalMenuItems = items;
+    setVerticalMenuItems(items: Menu[]): void {
+        this._verticalMenuItems.set(items);
     }
 
-    public setHorizontalMenuItems(items: Menu[]): void {
-        this.horizontalMenuItems = items;
+    setHorizontalMenuItems(items: Menu[]): void {
+        this._horizontalMenuItems.set(items);
     }
 
-    public getVerticalMenuItems(): Menu[] {
-        return this.verticalMenuItems;
-    }
-
-    public getHorizontalMenuItems(): Menu[] {
-        return this.horizontalMenuItems;
-    }
-
-    public expandActiveSubMenu(menu: Menu[]): void {
+    expandActiveSubMenu(menu: Menu[]): void {
         const url = this.location.path();
-        const routerLink = url;
-        const activeMenuItem = menu.filter(item => item.routerLink === routerLink);
+        const activeMenuItem = menu.filter(item => item.routerLink === url);
         if (activeMenuItem[0]) {
             let menuItem = activeMenuItem[0];
             while (menuItem.parentId !== 0) {
@@ -45,32 +39,25 @@ export class MenuService {
         }
     }
 
-    public toggleMenuItem(menuId: number): void {
+    toggleMenuItem(menuId: number): void {
         const menuItem = document.getElementById('menu-item-' + menuId);
         const subMenu = document.getElementById('sub-menu-' + menuId);
         if (menuItem && subMenu) {
-            if (subMenu.classList.contains('show')) {
-                subMenu.classList.remove('show');
-                menuItem.classList.remove('expanded');
-            } else {
-                subMenu.classList.add('show');
-                menuItem.classList.add('expanded');
-            }
+            subMenu.classList.toggle('show');
+            menuItem.classList.toggle('expanded');
         }
     }
 
-    public closeOtherSubMenus(menu: Menu[], menuId: number): void {
+    closeOtherSubMenus(menu: Menu[], menuId: number): void {
         const currentMenuItem = menu.filter(item => item.id === menuId)[0];
         if (currentMenuItem.parentId === 0 && !currentMenuItem.target) {
             menu.forEach(item => {
                 if (item.id !== menuId) {
                     const subMenu = document.getElementById('sub-menu-' + item.id);
                     const menuItem = document.getElementById('menu-item-' + item.id);
-                    if (menuItem && subMenu) {
-                        if (subMenu.classList.contains('show')) {
-                            subMenu.classList.remove('show');
-                            menuItem.classList.remove('expanded');
-                        }
+                    if (menuItem && subMenu && subMenu.classList.contains('show')) {
+                        subMenu.classList.remove('show');
+                        menuItem.classList.remove('expanded');
                     }
                 }
             });

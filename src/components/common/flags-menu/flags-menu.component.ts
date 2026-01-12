@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { SettingsService } from '../../../services/core/settings.service';
-import { Settings } from '../../../models/core/settings.model';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -16,12 +15,7 @@ import { MatMenuModule } from '@angular/material/menu';
     styleUrls: ['./flags-menu.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class FlagsMenuComponent implements OnInit {
-    public settings: Settings;
-
-    constructor(public settingsService: SettingsService) {
-        this.settings = this.settingsService.settings;
-    }
-
-    ngOnInit() {}
+export class FlagsMenuComponent {
+    private readonly settingsService = inject(SettingsService);
+    readonly settings = this.settingsService.settings;
 }

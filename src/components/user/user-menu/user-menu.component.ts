@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,11 +20,4 @@ import { RouterModule } from '@angular/router';
     styleUrls: ['./user-menu.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class UserMenuComponent implements OnInit {
-  public userImage = '';
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-}
+export class UserMenuComponent {}
