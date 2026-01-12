@@ -1,6 +1,7 @@
-// @dreso/lib - Main Theme Entry Point
-// Import this single file to get all Androide theme styles
+// @dreso/lib - Androide Theme
+// Single import for complete theme setup
 
+// Androide theme core
 @use './styles/base';
 @use './styles/spaces';
 @use './theme';
