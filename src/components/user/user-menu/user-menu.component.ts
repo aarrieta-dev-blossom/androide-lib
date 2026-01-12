@@ -21,7 +21,7 @@ import { RouterModule } from '@angular/router';
     encapsulation: ViewEncapsulation.None
 })
 export class UserMenuComponent implements OnInit {
-  public userImage = 'img/users/user.jpg';
+  public userImage = '';
   constructor() { }
 
   ngOnInit() {

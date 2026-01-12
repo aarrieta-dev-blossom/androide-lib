@@ -26,7 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
     encapsulation: ViewEncapsulation.None
 })
 export class SidenavComponent implements OnInit {
-    public userImage = 'img/users/user.jpg';
+    public userImage = '';
     public menuItems: Array<any> = [];
     public settings: Settings;
 
