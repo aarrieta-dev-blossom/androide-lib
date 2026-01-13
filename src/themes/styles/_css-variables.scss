@@ -106,3 +106,22 @@ body {
     background-color: var(--theme-primary) !important;
     color: var(--theme-primary-contrast) !important;
 }
+
+// Global rounded inputs
+.mat-mdc-form-field {
+    .mdc-notched-outline__leading {
+        border-radius: 8px 0 0 8px !important;
+    }
+
+    .mdc-notched-outline__trailing {
+        border-radius: 0 8px 8px 0 !important;
+    }
+
+    .mat-mdc-form-field-infix {
+        padding-left: 8px !important;
+    }
+
+    input.mat-mdc-input-element {
+        color: var(--theme-text) !important;
+    }
+}
