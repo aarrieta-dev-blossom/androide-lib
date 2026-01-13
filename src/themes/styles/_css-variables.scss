@@ -1,0 +1,108 @@
+:root {
+    --theme-primary: #3949ab;
+    --theme-accent: #ff4081;
+    --theme-warn: #f44336;
+    --theme-primary-contrast: #fff;
+    --theme-bg: #fafafa;
+    --theme-bg-card: #fff;
+    --theme-text: #212121;
+    --theme-text-secondary: rgba(0,0,0,0.54);
+}
+
+body.dark-theme {
+    --theme-bg: #303030;
+    --theme-bg-card: #424242;
+    --theme-text: #fff;
+    --theme-text-secondary: rgba(255,255,255,0.7);
+}
+
+.bg-primary {
+    background-color: var(--theme-primary) !important;
+    color: var(--theme-primary-contrast) !important;
+}
+
+.bg-accent {
+    background-color: var(--theme-accent) !important;
+}
+
+.bg-warn {
+    background-color: var(--theme-warn) !important;
+}
+
+.text-primary {
+    color: var(--theme-primary) !important;
+}
+
+.text-accent {
+    color: var(--theme-accent) !important;
+}
+
+.text-warn {
+    color: var(--theme-warn) !important;
+}
+
+body {
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+}
+
+.mat-mdc-card {
+    background-color: var(--theme-bg-card) !important;
+}
+
+.mat-toolbar.mat-primary {
+    background-color: var(--theme-primary) !important;
+    color: var(--theme-primary-contrast) !important;
+}
+
+.mat-mdc-raised-button.mat-primary {
+    background-color: var(--theme-primary) !important;
+    color: var(--theme-primary-contrast) !important;
+}
+
+.mat-mdc-raised-button.mat-accent {
+    background-color: var(--theme-accent) !important;
+}
+
+.mat-mdc-fab.mat-primary {
+    background-color: var(--theme-primary) !important;
+    color: var(--theme-primary-contrast) !important;
+}
+
+.mat-mdc-fab.mat-accent {
+    background-color: var(--theme-accent) !important;
+}
+
+.mat-mdc-mini-fab.mat-primary {
+    background-color: var(--theme-primary) !important;
+}
+
+.mat-mdc-mini-fab.mat-accent {
+    background-color: var(--theme-accent) !important;
+}
+
+.sidenav {
+    background-color: var(--theme-bg-card) !important;
+}
+
+.muted-text {
+    color: var(--theme-text-secondary);
+}
+
+.mat-drawer-container {
+    background-color: var(--theme-bg) !important;
+}
+
+.mat-sidenav-container {
+    background-color: var(--theme-bg) !important;
+}
+
+.options {
+    background-color: var(--theme-bg-card) !important;
+    color: var(--theme-text) !important;
+}
+
+.footer {
+    background-color: var(--theme-primary) !important;
+    color: var(--theme-primary-contrast) !important;
+}
